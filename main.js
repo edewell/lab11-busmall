@@ -1,3 +1,5 @@
+// alert('Pick from the catalog!!!')
+
 class CatalogPicture {
     clicks = 0;
     timesShown = 0;
@@ -45,6 +47,7 @@ const thirdImageTag = document.getElementById('third_image');
 // const fifthImageTag = document.getElementById('fifth_image');
 // const sixthImageName = document.getElementById('duck');
 // const sixthImageTag = document.getElementById('sixth_image');
+const catalogDiv = document.getElementById('catalogresults');
 
 
 // creating a random object literal for each image listed 
@@ -55,6 +58,14 @@ let pickImage = function() {
     secondImageIndex = Math.floor(Math.random() * eachCatalogObject.length);
 
     thirdImageIndex = Math.floor(Math.random() * eachCatalogObject.length);
+    
+    firstImageIndex = secondImageIndex = thirdImageIndex;
+
+
+    while (firstImageIndex === secondImageIndex === thirdImageIndex) {
+        firstImageIndex = Math.floor(Math.random() * eachCatalogObject.length);
+    }
+
 
     // fourthImageIndex = Math.floor(Math.random() * eachCatalogObject.length);
 
@@ -127,6 +138,7 @@ const clickOfCatalog = function(evt) {
         imageSectionTab.removeEventListener('click', clickOfCatalog);
         console.log("Those are 10 objects!!!");
         alert('You have selected 10 Images!!!');
+        catalogChart();
 
             for (let index = 0; index < eachCatalogObject.length; index++) {
                let newLiScore = document.createElement('li');
@@ -134,8 +146,107 @@ const clickOfCatalog = function(evt) {
                totalVotes.appendChild(newLiScore);
                 
             }
-    }
+        }
+
+
+    // shows chart for catalog pictures
+    // const catalogChart = function() {
+
+    
+        
+    // // if (amountOfClicks < MAXIMUM_CLICKS) {
+    // //   firstImage.timesShown++;
+    // //   secondImage.timesShown++;
+    // //   thirdImage.timesShown++;
+
+    // }
+    // // firstImageIndex = Math.floor(Math.random() * eachCatalogObject.length);
+
+    // secondImageIndex = Math.floor(Math.random() * eachCatalogObject.length);
+
+    // thirdImageIndex = Math.floor(Math.random() * eachCatalogObject.length);
+
+    // for (let index = 0; index < catalogChart.length; index++) {
+        
+    
+    // }
 }
+
+    function catalogChart(){
+        
+        let catalogEl = document.createElement('h2');
+        catalogEl.innerText = 'Logging results!!';
+
+        catalogDiv.appendChild(catalogEl);
+
+        const catalogNameArray = [];
+        const catalogLikesArray = [];
+
+        for (let i = 0; eachCatalogObject.length; i++){
+            const singleCatName = eachCatalogObject[i].name;
+            catalogNameArray.push(singleCatName);
+        }
+
+        for (let i = 0; i < eachCatalogObject.length; i++){
+            const singleCatLike = eachCatalogObject[i].clicks;
+            catalogLikesArray.push(singleCatLike);
+        }
+
+        catalogLikesArray.push(10);
+
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const cataChart = new Chart(ctx, {
+            
+            type: 'bar',
+
+            data: {
+                labels: catalogNameArray,
+                datasets: [{
+                    label: 'Catalog Likes',
+                    backgroundColor: 'rgb(255, 99, 132',
+                    borderColor: 'rgb(255, 99, 132',
+                    data: catalogLikesArray
+                }]
+            },
+
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true 
+                        }
+                    }]
+                }
+            }
+        });
+
+    }
+        // images for chart
+        
+    
+
+      // shows how many times the images were clicked om
+     
+    //   const chartCatalog = function() {
+    //       let chartShow =  [];
+    //         firstImage.timesShown;
+    //         secondImage.timesShown;
+    //         thirdImage.timesShown;
+            
+    //   }
+
+
+        
+      
+    //   for (let index = 0; index < myChart.length; index++) {
+          
+            
+    //     }
+
+    // }
+    
+
+
 
 imageSectionTab.addEventListener('click', clickOfCatalog);
 pickImage();
