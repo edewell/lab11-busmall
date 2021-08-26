@@ -145,6 +145,7 @@ const clickOfCatalog = function(evt) {
         alert('You have selected 10 Images!!!');
 
         makeChart();
+        myLocalStorage();
      
         // resultButton.addEventListener('click')
             for (let index = 0; index < eachCatalogObject.length; index++) {
@@ -227,13 +228,38 @@ const clickOfCatalog = function(evt) {
   };
 
   //   POE:
-  let myBusMallChart = new Chart( 
+  let myChart = new Chart( 
     document.getElementById("myChart"),
     configTheData
   );
 
 
 }
+
+function myLocalStorage() {
+    const newString = JSON.stringify(pickImage);
+
+    localStorage.setItem("products", newString);
+
+}
+
+function getLocalStorage() {
+    const oldPR = localStorage.getItem("products");
+
+    const productData = JSON.parse(oldPR);
+
+    if (productData !== null) {
+        pickImage = productData;
+    }
+
+    else {
+        console.log("Loading Local Storage");
+    }
+}
+
+myLocalStorage();
+
+
    
 
 
