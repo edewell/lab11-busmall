@@ -48,6 +48,8 @@ const thirdImageTag = document.getElementById('third_image');
 // const sixthImageName = document.getElementById('duck');
 // const sixthImageTag = document.getElementById('sixth_image');
 const catalogDiv = document.getElementById('catalogresults');
+const resultButton = document.createElement('button');
+resultButton.innerText ='Click to see results';
 
 
 // creating a random object literal for each image listed 
@@ -59,11 +61,13 @@ let pickImage = function() {
 
     thirdImageIndex = Math.floor(Math.random() * eachCatalogObject.length);
     
-    firstImageIndex = secondImageIndex = thirdImageIndex;
+    // firstImageIndex = secondImageIndex = thirdImageIndex;
 
 
     while (firstImageIndex === secondImageIndex === thirdImageIndex) {
         firstImageIndex = Math.floor(Math.random() * eachCatalogObject.length);
+        secondImageIndex = Math.floor(Math.random() * eachCatalogObject.length);
+        thirdImageIndex = Math.floor(Math.random() * eachCatalogObject.length);
     }
 
 
@@ -129,6 +133,7 @@ const clickOfCatalog = function(evt) {
             }
 
             pickImage();
+    
         }
     }
 
@@ -138,15 +143,19 @@ const clickOfCatalog = function(evt) {
         imageSectionTab.removeEventListener('click', clickOfCatalog);
         console.log("Those are 10 objects!!!");
         alert('You have selected 10 Images!!!');
-        catalogChart();
 
+        makeChart();
+     
+        // resultButton.addEventListener('click')
             for (let index = 0; index < eachCatalogObject.length; index++) {
                let newLiScore = document.createElement('li');
                newLiScore.innerText = `${eachCatalogObject[index].name}: ${eachCatalogObject[index].clicks}`;
                totalVotes.appendChild(newLiScore);
-                
+               
             }
+          
         }
+
 
 
     // shows chart for catalog pictures
@@ -172,80 +181,60 @@ const clickOfCatalog = function(evt) {
     // }
 }
 
-    function catalogChart(){
+// let renderChart = null;
+
+    function makeChart(){
         
-        let catalogEl = document.createElement('h2');
-        catalogEl.innerText = 'Logging results!!';
+   let nameArray = [];
+   let totalArray = [];
+   let timeShown = [];
+   
+   for (i = 0; i < pickImage.length; i++) {
 
-        catalogDiv.appendChild(catalogEl);
+        totalArray.push(pickImage[i].clicks);
+        nameArray.push(pickImage[i].name);
+        timeShown.push(pickImage[i].timesShown);
+   }
 
-        const catalogNameArray = [];
-        const catalogLikesArray = [];
+   console.log(nameArray);
+   console.log(totalArray);
+   console.log(timeShown);
 
-        for (let i = 0; eachCatalogObject.length; i++){
-            const singleCatName = eachCatalogObject[i].name;
-            catalogNameArray.push(singleCatName);
-        }
+   const chartLabels = nameArray;
 
-        for (let i = 0; i < eachCatalogObject.length; i++){
-            const singleCatLike = eachCatalogObject[i].clicks;
-            catalogLikesArray.push(singleCatLike);
-        }
+   const data = {
+    labels: chartLabels, 
+    datasets: [
+      {
+        label: "Clicks", 
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgb(255, 99, 132)",
+        data: totalArray, 
+      },
+      {
+        label: "Times Image Is Shown", 
+        backgroundColor: "#99FF99",
+        borderColor: "#99FF99",
+        data: timeShown, 
+      },
+    ],
+  };
 
-        catalogLikesArray.push(10);
+  const configTheData = {
+    type: "bar",
+    data,
+    options: {},
+  };
 
-        const ctx = document.getElementById('myChart').getContext('2d');
-        const cataChart = new Chart(ctx, {
-            
-            type: 'bar',
-
-            data: {
-                labels: catalogNameArray,
-                datasets: [{
-                    label: 'Catalog Likes',
-                    backgroundColor: 'rgb(255, 99, 132',
-                    borderColor: 'rgb(255, 99, 132',
-                    data: catalogLikesArray
-                }]
-            },
-
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true 
-                        }
-                    }]
-                }
-            }
-        });
-
-    }
-        // images for chart
-        
-    
-
-      // shows how many times the images were clicked om
-     
-    //   const chartCatalog = function() {
-    //       let chartShow =  [];
-    //         firstImage.timesShown;
-    //         secondImage.timesShown;
-    //         thirdImage.timesShown;
-            
-    //   }
+  //   POE:
+  let myBusMallChart = new Chart( 
+    document.getElementById("myChart"),
+    configTheData
+  );
 
 
-        
-      
-    //   for (let index = 0; index < myChart.length; index++) {
-          
-            
-    //     }
-
-    // }
-    
-
+}
+   
 
 
 imageSectionTab.addEventListener('click', clickOfCatalog);
